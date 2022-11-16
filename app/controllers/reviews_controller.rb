@@ -1,21 +1,18 @@
 class ReviewsController < ApplicationController
-  before_action :set_restaurant, only: [:index, :new, :create]
+  before_action :set_restaurant, only: [:create]
 
-  def index
-    @reviews = Review.where(@review == @restaurant)
-  end
-
-  def new
-    @review = Review.new
-  end
+  # def new
+  #   @review = Review.new
+  # end
 
   def create
+    @reviews = Review.where(restaurant_id: @restaurant)
     @review = Review.new(reviews_params)
     @review.restaurant = @restaurant
     if @review.save
       redirect_to restaurant_path(@restaurant)
     else
-      render :new, status: :unprocessable_entity
+      render :template => "restaurants/show", status: :unprocessable_entity
     end
   end
 
